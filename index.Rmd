@@ -13,4 +13,5 @@ output:
 
 I am interested in exploring data related to journalism and politics. In
 particular, I would like to explore public opinion surrounding different media
-outlets and the political affiliations associated with those opinions.
+outlets and the political affiliations associated with those opinions. I am also
+open to exploring other topics.
