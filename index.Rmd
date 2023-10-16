@@ -15,3 +15,22 @@ I am interested in exploring data related to journalism and politics. In
 particular, I would like to explore public opinion surrounding different media
 outlets and the political affiliations associated with those opinions. I am also
 open to exploring other topics.
+
+## Project proposal
+
+Does the emergence of new conservative media outlets impact the political views
+and voting decisions of the people exposed to conservative news outlets? In my 
+final project, I intent to analyze the extent to which conservative media can
+impact election outcomes and voting decisions. My hypothesis is that the more
+conservative media outlets are able to reach more people, the more voters will
+decide to support conversative candidates and causes when they appear on the
+ballot because the media outlets will be explicitly and implicitly encouraging
+them to do so. When there are less conservative media outlets to reach local 
+populations, my hypothesis would suggest that those voters would support less
+conservative candidates and causes. My data sample consists of Fox News' entry 
+into local televison markets throughout the 1990s. My outcome variable is the
+two-party vote share for Republicans over the course of the decade. If more
+people vote for Republicans after Fox News begins broadcasting in their media 
+market, then my hypothesis might be correct. If less people vote for Republicans
+after obtaining access to Fox News, that would indicate my hypothesis may not 
+hold true.
