@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["~$data.xlsx","data.sav","data.xlsx","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1473,6 +1473,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   <!--/radix_placeholder_distill-->
   <script src="index_files/header-attrs-2.24/header-attrs.js"></script>
+  <script src="index_files/kePrint-0.0.1/kePrint.js"></script>
+  <link href="index_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
   <script src="index_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="index_files/popper-2.6.0/popper.min.js"></script>
   <link href="index_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1517,29 +1519,302 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<h2 id="project-thoughts">Project thoughts</h2>
-<p>I am interested in exploring data related to journalism and politics. In
-particular, I would like to explore public opinion surrounding different media
-outlets and the political affiliations associated with those opinions. I am also
-open to exploring other topics.</p>
-<h2 id="project-proposal">Project proposal</h2>
-<p>Does the emergence of new conservative media outlets impact the political views
-and voting decisions of the people exposed to conservative news outlets? In my
-final project, I intent to analyze the extent to which conservative media can
-impact election outcomes and voting decisions. My hypothesis is that the more
-conservative media outlets are able to reach more people, the more voters will
-decide to support conversative candidates and causes when they appear on the
-ballot because the media outlets will be explicitly and implicitly encouraging
-them to do so. When there are less conservative media outlets to reach local
-populations, my hypothesis would suggest that those voters would support less
-conservative candidates and causes. My data sample consists of Fox News’ entry
-into local televison markets throughout the 1990s. My outcome variable is the
-two-party vote share for Republicans over the course of the decade. If more
-people vote for Republicans after Fox News begins broadcasting in their media
-market, then my hypothesis might be correct. If less people vote for Republicans
-after obtaining access to Fox News, that would indicate my hypothesis may not
-hold true.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://svn.r-project.org/R-packages/trunk/foreign/'>foreign</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readxl.tidyverse.org'>readxl</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/sfirke/janitor'>janitor</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_xlsx</a></span><span class='op'>(</span><span class='st'>"data.xlsx"</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>`20_Autonomy:_selecting_stories`</span>, <span class='va'>`80_Influences:_government_officials`</span>,</span>
+<span>         <span class='va'>`141_Editorial_rank_(junior/senior_manager)`</span>, </span>
+<span>         <span class='va'>`143_Channel:_Daily_newspaper`</span>, <span class='va'>`144_Channel:_Weekly_newspaper`</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://sfirke.github.io/janitor/reference/clean_names.html'>clean_names</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span></span>
+<span>    autonomy <span class='op'>=</span> <span class='va'>x20_autonomy_selecting_stories</span>,</span>
+<span>    government_influence <span class='op'>=</span> <span class='va'>x80_influences_government_officials</span>,</span>
+<span>    rank <span class='op'>=</span> <span class='va'>x141_editorial_rank_junior_senior_manager</span>,</span>
+<span>    daily <span class='op'>=</span> <span class='va'>x143_channel_daily_newspaper</span>,</span>
+<span>    weekly <span class='op'>=</span> <span class='va'>x144_channel_weekly_newspaper</span></span>
+<span>  <span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
+<span>    daily <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span></span>
+<span>      <span class='va'>daily</span> <span class='op'>==</span> <span class='fl'>2</span> <span class='op'>~</span> <span class='fl'>1</span>,</span>
+<span>      <span class='va'>daily</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>~</span> <span class='fl'>0</span>,</span>
+<span>      <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='fl'>0</span></span>
+<span>    <span class='op'>)</span>,</span>
+<span>    weekly <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span></span>
+<span>      <span class='va'>weekly</span> <span class='op'>==</span> <span class='fl'>2</span> <span class='op'>~</span> <span class='fl'>1</span>,</span>
+<span>      <span class='va'>weekly</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>~</span> <span class='fl'>0</span>,</span>
+<span>      <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='fl'>0</span></span>
+<span>    <span class='op'>)</span></span>
+<span>  <span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<h2 id="introduction">Introduction</h2>
+<p>Journalism, also known as the Fourth Estate, is commonly considered integral to
+democracy due to its ability to serve as an independent source of information
+and for its ability to hold power to account. Some of the best reporting in
+which journalists successfully held power to account occurred in regards to
+revealing information to the public that politicians wish stayed secret. Other
+times, journalists published articles that held governmental officials
+accountable for their actions. The author of this project would aruge that the
+best journalism occurs when reporters are able to operated independently from
+the influence of governmental officials on their work.</p>
+<p>This project seeks to answer that important question by studying whether
+journalism can be corrupted and influenced by government officials who are
+seeking to put constraints on the types of articles that news publications
+produce. By studying whether the perception of more government influence impacts
+the autonomy journalists have to select their own stories, this might help
+underscore the importance of editorial independence on journalism. The
+hypothesis is that journalists indeed feel like they have less autonomy to
+select their own stories for publication when they feel more influenced by
+governmental officials. This project will hopefully help determine the extent to
+which the perception of influence by government officials can impact reporters’
+ability to tell their own stories.</p>
+<h2 id="data-used-in-project">Data Used in Project</h2>
+<p>The data source used in this project comes from the Worlds of Journalism study,
+an academic project that attempts to regularly assess the state of journalism in
+the world. The data set is from a cross-sectional study of journalists in dozens
+of countries around the world. The data source being used for the purposes of
+this project had more than 27,000 responses from reporters in many countries
+across the globe.</p>
+<p>The study, which was conducted as a survey, asked journalists in countries
+around the world a series a questions about their profession, including about
+what they viewed as potentially serving as an influence on them, what might
+restrict their autonomy, and what the surveyed reporters emphasize the most when
+it comes to journalistic ethics. The data also clarified the demogrpahics of its
+respondents as well as the types of media outlets that they worked for.</p>
+<h2 id="results">Results</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>data</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>autonomy</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Amount of Autonomy"</span>, y <span class='op'>=</span> <span class='st'>"Number of Respondents"</span>,</span>
+<span>       title <span class='op'>=</span> <span class='st'>"Level of Autonomy in Selecting Stories"</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>data</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>government_influence</span>, y <span class='op'>=</span> <span class='va'>autonomy</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_jitter.html'>geom_jitter</a></span><span class='op'>(</span>alpha <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Influence by Governmental Officials"</span>, y <span class='op'>=</span> <span class='st'>"Level of Autonomy"</span>,</span>
+<span>       title <span class='op'>=</span> <span class='st'>"Perceived Autonomy by Journalists to Select Stories"</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>data</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='va'>government_influence</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='va'>autonomy</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Autonomy to Select Stories"</span>, y <span class='op'>=</span> <span class='st'>"Influence from Governmental Officials"</span>,</span>
+<span>  title <span class='op'>=</span> <span class='st'>"Level of Autonomy Compared to Influence by Governmental Officials"</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>autonomy</span> <span class='op'>~</span> <span class='va'>daily</span> <span class='op'>+</span> <span class='va'>weekly</span> <span class='op'>+</span> <span class='va'>government_influence</span>, data <span class='op'>=</span> <span class='va'>data</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>fit</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+lm(formula = autonomy ~ daily + weekly + government_influence, 
+    data = data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.1183 -0.6863  0.1099  0.4914  1.6186 
+
+Coefficients:
+                      Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)           4.245463   0.020368 208.435  &lt; 2e-16 ***
+daily                -0.050547   0.011655  -4.337 1.45e-05 ***
+weekly               -0.177699   0.017701 -10.039  &lt; 2e-16 ***
+government_influence -0.127159   0.004634 -27.440  &lt; 2e-16 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.9101 on 26022 degrees of freedom
+  (1541 observations deleted due to missingness)
+Multiple R-squared:  0.03407,   Adjusted R-squared:  0.03396 
+F-statistic:   306 on 3 and 26022 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://modelsummary.com'>modelsummary</a></span><span class='op'>)</span></span>
+<span><span class='va'>var_labels</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span>  <span class='st'>"(Intercept)"</span> <span class='op'>=</span> <span class='st'>"Intercept"</span>, </span>
+<span>  <span class='st'>"daily"</span> <span class='op'>=</span> <span class='st'>"Daily Newspaper"</span>, </span>
+<span>  <span class='st'>"weekly"</span> <span class='op'>=</span> <span class='st'>"Weekly Newspaper"</span>,</span>
+<span>  <span class='st'>"government_influence"</span> <span class='op'>=</span> <span class='st'>"Influence of Government Officials"</span><span class='op'>)</span></span>
+<span><span class='fu'>modelsummary</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/modelsummary/man/modelsummary.html'>modelsummary</a></span><span class='op'>(</span><span class='va'>fit</span>,</span>
+<span>            statistic <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"s.e. = {std.error}"</span>,</span>
+<span>            <span class='st'>"p = {p.value}"</span><span class='op'>)</span>,</span>
+<span>            coef_map <span class='op'>=</span> <span class='va'>var_labels</span>,</span>
+<span>            gof_map <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"nobs"</span>, <span class='st'>"r.squared"</span>, <span class='st'>"adj.r.squared"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:center;">
+ (1)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Intercept
+</td>
+<td style="text-align:center;">
+4.245
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+s.e. = 0.020
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+p = &lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Daily Newspaper
+</td>
+<td style="text-align:center;">
+−0.051
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+s.e. = 0.012
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+p = &lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Weekly Newspaper
+</td>
+<td style="text-align:center;">
+−0.178
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+s.e. = 0.018
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+p = &lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Influence of Government Officials
+</td>
+<td style="text-align:center;">
+−0.127
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+s.e. = 0.005
+</td>
+</tr>
+<tr>
+<td style="text-align:left;box-shadow: 0px 1.5px">
+</td>
+<td style="text-align:center;box-shadow: 0px 1.5px">
+p = &lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Num.Obs.
+</td>
+<td style="text-align:center;">
+26026
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2
+</td>
+<td style="text-align:center;">
+0.034
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2 Adj.
+</td>
+<td style="text-align:center;">
+0.034
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>After having completed the main analysis of data in this project, it can be
+concluded that the null hypothesis can be rejected because it is a small p-value
+and close to zero (&lt;0.001). The null hypothesis is thus rejected and leads us to
+conclude that the conclusions we had found in this project are likely to not
+have occurred accidentally or incidentally, and allows us to report that the
+results are likely true.</p>
+<p>As a result, we can determine that journalists who feel that there is
+heightened influence of government officials are more likely to report that they
+feel as if they have less autonomy to select the stories that they would like to
+publish. But due to the fact that there are several factors that could go into
+determining whether or not stories get selected for publication, this project
+also took into account the differences in publication, taking newspapers that
+publish daily and newspapers that publish weekly as potential confounders. This
+allowed us to check whether journalists who feel like they have less autonomy to
+select their stories feel that way due to the regularity of their outlet’s
+publication schedule as opposed to the influence of government officials.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The low reported p_value and the low reported standard error allow us
+to conclude that the null hypothesis is rejected, thus affirming our original
+hypothesis at the start of the project. It is likely that the more journalists
+feel influenced by governmental officials, the more journalists feel like they
+have less autonomy to select their own stories. While this study attempted to
+take into account regularity of publication, there could have been several other
+factors that would go into the response to the project’s questions, including a
+news outlets’ business model and whether a journalist having the autonomy to
+select their own stories could run contrary to the business model (i.e. 
+publications that rely on publishing click bait to turn a profit.) With more
+time and resources, this project would seek to take more of these confounding
+facotors into account and address them more comprehensively in a future study.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
