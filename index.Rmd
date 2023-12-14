@@ -8,29 +8,161 @@ output:
 ---
 
 
+```{r}
 
-## Project thoughts
+library(tidyverse)
+library(foreign)
+library(readxl)
+library(janitor)
 
-I am interested in exploring data related to journalism and politics. In
-particular, I would like to explore public opinion surrounding different media
-outlets and the political affiliations associated with those opinions. I am also
-open to exploring other topics.
+data <- read_xlsx("data.xlsx") |>
+  select(`20_Autonomy:_selecting_stories`, `80_Influences:_government_officials`,
+         `141_Editorial_rank_(junior/senior_manager)`, 
+         `143_Channel:_Daily_newspaper`, `144_Channel:_Weekly_newspaper`) |>
+  clean_names() |>
+  rename(
+    autonomy = x20_autonomy_selecting_stories,
+    government_influence = x80_influences_government_officials,
+    rank = x141_editorial_rank_junior_senior_manager,
+    daily = x143_channel_daily_newspaper,
+    weekly = x144_channel_weekly_newspaper
+  ) |>
+  mutate(
+    daily = case_when(
+      daily == 2 ~ 1,
+      daily == 1 ~ 0,
+      TRUE ~ 0
+    ),
+    weekly = case_when(
+      weekly == 2 ~ 1,
+      weekly == 1 ~ 0,
+      TRUE ~ 0
+    )
+  )
 
-## Project proposal
+```
 
-Does the emergence of new conservative media outlets impact the political views
-and voting decisions of the people exposed to conservative news outlets? In my 
-final project, I intent to analyze the extent to which conservative media can
-impact election outcomes and voting decisions. My hypothesis is that the more
-conservative media outlets are able to reach more people, the more voters will
-decide to support conversative candidates and causes when they appear on the
-ballot because the media outlets will be explicitly and implicitly encouraging
-them to do so. When there are less conservative media outlets to reach local 
-populations, my hypothesis would suggest that those voters would support less
-conservative candidates and causes. My data sample consists of Fox News' entry 
-into local televison markets throughout the 1990s. My outcome variable is the
-two-party vote share for Republicans over the course of the decade. If more
-people vote for Republicans after Fox News begins broadcasting in their media 
-market, then my hypothesis might be correct. If less people vote for Republicans
-after obtaining access to Fox News, that would indicate my hypothesis may not 
-hold true.
+## Introduction
+
+Journalism, also known as the Fourth Estate, is commonly considered integral to 
+democracy due to its ability to serve as an independent source of information 
+and for its ability to hold power to account. Some of the best reporting in 
+which journalists successfully held power to account occurred in regards to 
+revealing information to the public that politicians wish stayed secret. Other 
+times, journalists published articles that held governmental officials 
+accountable for their actions. The author of this project would aruge that the 
+best journalism occurs when reporters are able to operated independently from 
+the influence of governmental officials on their work.
+
+This project seeks to answer that important question by studying whether 
+journalism can be corrupted and influenced by government officials who are 
+seeking to put constraints on the types of articles that news publications 
+produce. By studying whether the perception of more government influence impacts
+the autonomy journalists have to select their own stories, this might help 
+underscore the importance of editorial independence on journalism. The 
+hypothesis is that journalists indeed feel like they have less autonomy to 
+select their own stories for publication when they feel more influenced by
+governmental officials. This project will hopefully help determine the extent to
+which the perception of influence by government officials can impact reporters'
+ability to tell their own stories.
+
+## Data Used in Project
+
+The data source used in this project comes from the Worlds of Journalism study,
+an academic project that attempts to regularly assess the state of journalism in
+the world. The data set is from a cross-sectional study of journalists in dozens
+of countries around the world. The data source being used for the purposes of 
+this project had more than 27,000 responses from reporters in many countries 
+across the globe. 
+
+The study, which was conducted as a survey, asked journalists in countries 
+around the world a series a questions about their profession, including about 
+what they viewed as potentially serving as an influence on them, what might 
+restrict their autonomy, and what the surveyed reporters emphasize the most when
+it comes to journalistic ethics. The data also clarified the demogrpahics of its
+respondents as well as the types of media outlets that they worked for.
+
+
+## Results
+
+```{r}
+data |>
+  ggplot(aes(x = autonomy)) +
+  geom_bar() +
+  labs(x = "Amount of Autonomy", y = "Number of Respondents",
+       title = "Level of Autonomy in Selecting Stories")
+```
+
+
+```{r}
+data |>
+  ggplot(aes(x = government_influence, y = autonomy)) +
+  geom_jitter(alpha = 0.3)+
+  labs(x = "Influence by Governmental Officials", y = "Level of Autonomy",
+       title = "Perceived Autonomy by Journalists to Select Stories")
+```
+
+```{r}
+data |>
+  ggplot(aes(x = as.factor(government_influence), y = autonomy)) +
+  geom_boxplot()+
+  labs(x = "Autonomy to Select Stories", y = "Influence from Governmental Officials",
+  title = "Level of Autonomy Compared to Influence by Governmental Officials")
+```
+
+
+```{r}
+fit <- lm(autonomy ~ daily + weekly + government_influence, data = data)
+summary(fit)
+```
+
+
+```{r}
+library(modelsummary)
+var_labels <- c(
+  "(Intercept)" = "Intercept", 
+  "daily" = "Daily Newspaper", 
+  "weekly" = "Weekly Newspaper",
+  "government_influence" = "Influence of Government Officials")
+modelsummary::modelsummary(fit,
+            statistic = c("s.e. = {std.error}",
+            "p = {p.value}"),
+            coef_map = var_labels,
+            gof_map = c("nobs", "r.squared", "adj.r.squared"))
+            
+```
+
+After having completed the main analysis of data in this project, it can be 
+concluded that the null hypothesis can be rejected because it is a small p-value
+and close to zero (<0.001). The null hypothesis is thus rejected and leads us to
+conclude that the conclusions we had found in this project are likely to not
+have occurred accidentally or incidentally, and allows us to report that the
+results are likely true.
+
+As a result, we can determine that journalists who feel that there is
+heightened influence of government officials are more likely to report that they
+feel as if they have less autonomy to select the stories that they would like to
+publish. But due to the fact that there are several factors that could go into 
+determining whether or not stories get selected for publication, this project
+also took into account the differences in publication, taking newspapers that
+publish daily and newspapers that publish weekly as potential confounders. This
+allowed us to check whether journalists who feel like they have less autonomy to
+select their stories feel that way due to the regularity of their outlet's
+publication schedule as opposed to the influence of government officials.
+
+## Conclusion
+
+The low reported p_value and the low reported standard error allow us
+to conclude that the null hypothesis is rejected, thus affirming our original
+hypothesis at the start of the project. It is likely that the more journalists
+feel influenced by governmental officials, the more journalists feel like they
+have less autonomy to select their own stories. While this study attempted to
+take into account regularity of publication, there could have been several other
+factors that would go into the response to the project's questions, including a
+news outlets' business model and whether a journalist having the autonomy to
+select their own stories could run contrary to the business model (i.e. 
+publications that rely on publishing click bait to turn a profit.) With more
+time and resources, this project would seek to take more of these confounding 
+facotors into account and address them more comprehensively in a future study.
+
+
